@@ -12,6 +12,7 @@ import Invite from './pages/professor/Invite';
 import Student from './pages/student/Student';
 import Profile from './pages/student/CreateProfile';
 import Search from './pages/student/Search';
+import Group from './pages/student/Group';
 
 function App() {
   return (
@@ -74,6 +75,14 @@ function App() {
             element={
               <Protected>
                 <Search />
+              </Protected>
+            }
+          />
+          <Route
+            path='/student/group'
+            element={
+              <Protected>
+                <Group />
               </Protected>
             }
           />

@@ -6,6 +6,10 @@ const Search = () => {
   const handleReturn = () => {
     navigate('/');
   };
+
+  const handleGroupPage = () => {
+    navigate('/student/group');
+  };
   return (
     <div>
       <h1 className='text-center text-3xl font-bold py-8'>Search By </h1>
@@ -58,6 +62,7 @@ const Search = () => {
             width: '205px',
             height: '55px'}}
           className="px-4 py-2 rounded-md"
+          onClick={handleGroupPage}
         >
           GROUP HOMEPAGE
         </button>
