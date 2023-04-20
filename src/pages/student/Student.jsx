@@ -1,21 +1,10 @@
 import React from 'react'
 import { UserAuth } from '../../context/AuthContext.js';
 import { useNavigate } from 'react-router-dom';
-// import ApiCalendar from "react-google-calendar-api";
 
-// const config = {
-//   clientId: '144547975092-aokig3tlqrbt2pqhidprf0m8f1gadp12.apps.googleusercontent.com',
-//   apiKey: 'AIzaSyAObYDNWVXQ699vmLFuWVq4WR-TUN-0SCE',
-//   scope: "https://www.googleapis.com/auth/calendar",
-//   discoveryDocs: [
-//     "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
-//   ],
-// };
-
-// const apiCalendar = new ApiCalendar(config);
 
 const Student = () => {
-  const { user } = UserAuth();
+  const { user,token } = UserAuth();
   const navigate = useNavigate();
   const handleRefresh = () => {
     // Reload the current page to refresh the content
@@ -23,10 +12,48 @@ const Student = () => {
   }; 
   const handleYes = () => {
     navigate('/student/createprofile');
+    handleClick();
   };
   const handleNo = () => {
     // Navigate to Google Calendar website
     window.open(`https://calendar.google.com/calendar/u/${user.email}/r`, '_blank');
+  };
+
+  var gapi = window.gapi
+  const handleClick = () => {
+    try {
+      gapi.load('client:auth2', () => {
+        gapi.client.load('calendar', 'v3', () => {
+          gapi.client.setToken({access_token:token});
+          const now = new Date();
+          const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() + 1);
+          const endOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() + 8);
+          const request = gapi.client.calendar.events.list({
+            'calendarId': 'primary',
+            'timeMin': startOfWeek.toISOString(),
+            'timeMax': endOfWeek.toISOString(),
+            'timeZone': 'America/New_York',
+            'showDeleted': false,
+            'singleEvents': true,
+            'orderBy': 'startTime'
+          });
+          request.execute((response) => {
+            console.log('Events response: ', response);
+            const events = response.items.map((event) => {
+              return {
+                'title': event.summary,
+                'start': event.start.dateTime,
+                'end': event.end.dateTime,
+                'url': event.htmlLink
+              };
+            });
+            console.log('Events data: ', events);
+          });
+        });
+      });
+    } catch (error) {
+      console.error('Error retrieving events: ', error);
+    }
   };
 
   return (

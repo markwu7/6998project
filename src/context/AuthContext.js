@@ -11,11 +11,16 @@ const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({});
+  const [token, setToken] = useState({});
 
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
+    provider.addScope("https://www.googleapis.com/auth/calendar");
     signInWithPopup(auth, provider)
     .then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      setToken(token);
       // Validate email domain
       const emailDomain = result.user.email.split('@')[1];
       const domainRegex = /columbia\.edu$/i; // Regular expression for "columbia.edu" domain
@@ -47,7 +52,7 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ googleSignIn, logOut, user }}>
+    <AuthContext.Provider value={{ googleSignIn, logOut, user,token }}>
       {children}
     </AuthContext.Provider>
   );

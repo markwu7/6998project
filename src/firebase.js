@@ -12,7 +12,12 @@ const firebaseConfig = {
   projectId: "partner-finder-app",
   storageBucket: "partner-finder-app.appspot.com",
   messagingSenderId: "428290993442",
-  appId: "1:428290993442:web:def630e5250cd29820897b"
+  appId: "1:428290993442:web:def630e5250cd29820897b",
+  clientId: "428290993442-34pvh8c17kqlqce4cssl0fn6anchnf1u.apps.googleusercontent.com",
+  scope: "https://www.googleapis.com/auth/calendar",
+  discoveryDocs: [
+    "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
+  ],
 };
 
 
