@@ -13,8 +13,17 @@ import Student from './pages/student/Student';
 import Profile from './pages/student/CreateProfile';
 import Search from './pages/student/Search';
 import Group from './pages/student/Group';
+import axios from 'axios';
 
 function App() {
+  const api = ' https://dw9ehzs68l.execute-api.us-east-1.amazonaws.com/stage1';
+  var p = api + '/profile';
+  axios.get(p, {'email': 'rg3398@columbia.edu', 'password': 'pword',
+                'first_name': "ryan", 'last_name': 'grossmann'}).then(function (response) {
+    console.log(response);
+  }).catch(function(error) {
+    console.log(error)
+  });
   return (
     <div>
       <AuthContextProvider>
