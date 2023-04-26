@@ -1,14 +1,21 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
-const Success = () => {
+import { useNavigate, useLocation } from 'react-router-dom';
+import { UserAuth } from '../../context/AuthContext';
 
+const Success = () => {
+  const { user } = UserAuth();
+  const location = useLocation();
+  console.log(location.state.classname);
+  console.log(location.state.groupsize);
   const navigate = useNavigate();
 
-  const handleNextClick = () => {
-    navigate('/');
-  };
+  // const handleNextClick = () => {
+  //   navigate('/');
+  // };
   const handleInviteClick = () => {
-    navigate('/professor/invite');
+    var name = location.state.classname;
+    var size = location.state.groupsize;
+    navigate('/professor/invite', {state:{classname:name, groupsize:size}});
   };
 
   return (
@@ -43,7 +50,7 @@ const Success = () => {
     INVITE
   </button>
   <br />
-  <button
+  {/* <button
     type='submit'
     className='bg-blue-500 text-white px-4 py-2 rounded'
     style={{
@@ -61,7 +68,7 @@ const Success = () => {
     onClick={handleNextClick}
   >
     RETURN TO START
-  </button>
+  </button> */}
 </div>
 
 

@@ -1,12 +1,28 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const Invite = () => {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleEnterClick = () => {
     // Perform logic for "Enter" button click
+    const api = ' https://dw9ehzs68l.execute-api.us-east-1.amazonaws.com/stage1';
+    var p = api + '/requests';
+    axios.post(p, {'email': email, 'class': location.state.classname}).then(function (response) {
+      console.log(response);
+    }).catch(function(error) {
+      console.log(error);
+    });
+    p = api + '/profile';
+    axios.post(p, {'email': email, 'class': location.state.classname }).then(function (response) {
+      console.log(response);
+    }).catch(function(error) {
+      console.log(error);
+    });
+
     console.log('Email:', email);
     // Clear email input field after processing
     setEmail('');
