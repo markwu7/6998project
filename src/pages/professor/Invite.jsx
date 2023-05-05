@@ -17,7 +17,8 @@ const Invite = () => {
       console.log(error);
     });
     p = api + '/profile';
-    axios.post(p, {'email': email, 'class': location.state.classname }).then(function (response) {
+    axios.post(p, {'email': email, 'class': location.state.classname,
+          'group': new Array(location.state.groupsize).fill('')}).then(function (response) {
       console.log(response);
     }).catch(function(error) {
       console.log(error);

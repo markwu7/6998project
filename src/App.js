@@ -13,7 +13,6 @@ import Student from './pages/student/Student';
 import Profile from './pages/student/CreateProfile';
 import Search from './pages/student/Search';
 import Group from './pages/student/Group';
-import axios from 'axios';
 
 function App() {
   return (

@@ -1,7 +1,7 @@
 import React from 'react'
 import { UserAuth } from '../../context/AuthContext.js';
 import { useNavigate } from 'react-router-dom';
-
+import axios from 'axios';
 
 const Student = () => {
   const { user,token } = UserAuth();
@@ -19,41 +19,61 @@ const Student = () => {
     window.open(`https://calendar.google.com/calendar/u/${user.email}/r`, '_blank');
   };
 
-  var gapi = window.gapi
-  const handleClick = () => {
+  var arr = new Array(7);
+  async function myfunction() {
     try {
       gapi.load('client:auth2', () => {
         gapi.client.load('calendar', 'v3', () => {
           gapi.client.setToken({access_token:token});
           const now = new Date();
-          const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() + 1);
-          const endOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() + 8);
-          const request = gapi.client.calendar.events.list({
-            'calendarId': 'primary',
-            'timeMin': startOfWeek.toISOString(),
-            'timeMax': endOfWeek.toISOString(),
-            'timeZone': 'America/New_York',
-            'showDeleted': false,
-            'singleEvents': true,
-            'orderBy': 'startTime'
-          });
-          request.execute((response) => {
-            console.log('Events response: ', response);
-            const events = response.items.map((event) => {
-              return {
-                'title': event.summary,
-                'start': event.start.dateTime,
-                'end': event.end.dateTime,
-                'url': event.htmlLink
-              };
+          
+          for (let i = 1; i < 8; i++) {
+            const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() + i);
+            const endOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() + (i+1));
+            const request = gapi.client.calendar.events.list({
+              'calendarId': 'primary',
+              'timeMin': startOfWeek.toISOString(),
+              'timeMax': endOfWeek.toISOString(),
+              'timeZone': 'America/New_York',
+              'showDeleted': false,
+              'singleEvents': true,
+              'orderBy': 'startTime'
             });
-            console.log('Events data: ', events);
-          });
+            request.execute((response) => {
+              console.log('Events response: ', response);
+              var events = response.items.map((event) => {
+                return {
+                  'title': event.summary,
+                  'start': event.start.dateTime,
+                  'end': event.end.dateTime,
+                  'url': event.htmlLink
+                };
+              });
+              arr[i-1] = events;
+            }); 
+          }
+          console.log(arr);
+          // console.log('Events data: ', events);
         });
       });
     } catch (error) {
       console.error('Error retrieving events: ', error);
     }
+    return arr;
+  };
+
+
+  
+  var gapi = window.gapi
+  const handleClick = () => {
+    const re = myfunction();
+    const api = ' https://dw9ehzs68l.execute-api.us-east-1.amazonaws.com/stage1';
+    var p = api + '/updatecal';
+    axios.post(p, {'email': user.email, 'events': re}).then(function (response) {
+      console.log(response);
+    }).catch(function(error) {
+      console.log(error);
+    });
   };
 
   return (
