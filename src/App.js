@@ -13,6 +13,8 @@ import Student from './pages/student/Student';
 import Profile from './pages/student/CreateProfile';
 import Search from './pages/student/Search';
 import Group from './pages/student/Group';
+import Whole from './pages/student/Whole';
+import Rec from './pages/student/Rec';
 
 function App() {
   return (
@@ -83,6 +85,22 @@ function App() {
             element={
               <Protected>
                 <Group />
+              </Protected>
+            }
+          />
+          <Route
+            path='/student/whole'
+            element={
+              <Protected>
+                <Whole />
+              </Protected>
+            }
+          />
+          <Route
+            path='/student/rec'
+            element={
+              <Protected>
+                <Rec />
               </Protected>
             }
           />

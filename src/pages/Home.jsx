@@ -4,7 +4,6 @@ import { UserAuth } from '../context/AuthContext';
 
 
 const Home = () => {
-
   const { user } = UserAuth();
   return (
     <div className='flex flex-col items-center justify-center'>

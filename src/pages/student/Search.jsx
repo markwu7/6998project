@@ -1,15 +1,57 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UserAuth } from '../../context/AuthContext';
+import axios from 'axios';
 
 const Search = () => {
+  const { user } = UserAuth();
+
+  const api = ' https://dw9ehzs68l.execute-api.us-east-1.amazonaws.com/stage1';
+  var p = api + '/recommendations';
+  var recs = null;
+  var search = null;
+  var group = null;
+  axios.post(p, {'email': user.email}).then(function (response) {
+    console.log(response);
+    recs = response['body']
+  }).catch(function(error) {
+    console.log(error);
+  }); 
+
+  p = api + '/search';
+  axios.post(p, {'email': user.email}).then(function (response) {
+    console.log(response);
+    search = response['body']
+  }).catch(function(error) {
+    console.log(error);
+  });
+
+  p = api + '/profile/' + user.email;
+  axios.post(p, {'email': user.email}).then(function (response) {
+    console.log(response);
+    group = response['body']['group']
+  }).catch(function(error) {
+    console.log(error);
+  });
+
+
   const navigate = useNavigate();
   const handleReturn = () => {
     navigate('/');
   };
 
   const handleGroupPage = () => {
-    navigate('/student/group');
+    navigate('/student/group', group);
   };
+
+  const handleWholeClass = () => {
+    navigate('/student/whole', search);
+  }
+
+  const handleRec = () => {
+    navigate('/student/rec', recs);
+  }
+
   return (
     <div>
       <h1 className='text-center text-3xl font-bold py-8'>Search By </h1>
@@ -28,6 +70,7 @@ const Search = () => {
             width: '205px',
             height: '55px'}}
           className="px-4 py-2 rounded-md"
+          onclick={handleWholeClass}
         >
           WHOLE CLASS
         </button>
@@ -45,6 +88,7 @@ const Search = () => {
             width: '205px',
             height: '55px'}}
           className="px-4 py-2 rounded-md"
+          onclick={handleRec}
         >
           RECOMMENDATIONS
         </button>
