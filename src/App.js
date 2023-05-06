@@ -15,6 +15,8 @@ import Search from './pages/student/Search';
 import Group from './pages/student/Group';
 import Whole from './pages/student/Whole';
 import Rec from './pages/student/Rec';
+import RequestSuccess from './pages/student/RequestSuccess';
+import Calendar from './pages/student/Calendar';
 
 function App() {
   return (
@@ -101,6 +103,22 @@ function App() {
             element={
               <Protected>
                 <Rec />
+              </Protected>
+            }
+          />
+          <Route
+            path='/student/requestSuccess'
+            element={
+              <Protected>
+                <RequestSuccess />
+              </Protected>
+            }
+          />
+          <Route
+            path='/student/calendar'
+            element={
+              <Protected>
+                <Calendar />
               </Protected>
             }
           />

@@ -41,15 +41,15 @@ const Search = () => {
   };
 
   const handleGroupPage = () => {
-    navigate('/student/group', group);
+    navigate('/student/group');
   };
 
   const handleWholeClass = () => {
-    navigate('/student/whole', search);
+    navigate('/student/whole');
   }
 
   const handleRec = () => {
-    navigate('/student/rec', recs);
+    navigate('/student/rec');
   }
 
   return (
@@ -70,7 +70,7 @@ const Search = () => {
             width: '205px',
             height: '55px'}}
           className="px-4 py-2 rounded-md"
-          onclick={handleWholeClass}
+          onClick={handleWholeClass}
         >
           WHOLE CLASS
         </button>
@@ -88,7 +88,7 @@ const Search = () => {
             width: '205px',
             height: '55px'}}
           className="px-4 py-2 rounded-md"
-          onclick={handleRec}
+          onClick={handleRec}
         >
           RECOMMENDATIONS
         </button>
