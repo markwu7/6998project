@@ -3,18 +3,15 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 
 const Whole = () => {
-    const items = [
-        { name: 'Ryan', email: 'rg3398@columbia.edu' },
-        { name: 'Thomas', email: 'jz3516@columbia.edu' },
-        { name: 'Allison', email: 'ar4513@columbia.edu' },
-        { name: 'John Doe', email: 'xxxx' },
-        { name: 'John Doe', email: 'xxxx' },
-        { name: 'John Doe', email: 'xxxx' },
-    ];
+    const items = [];
 
     const navigate = useNavigate();
     const location = useLocation();
-    
+    var search = location.state.s;
+    console.log("HERE", search);
+    for (var i = 0; i < search.length; i++) {
+        items.push({name: "", email: search[i]});
+      }
     const handleRequestGroup = (item) => {
     navigate('/student/requestSuccess', { state: { from: location.pathname } });
     };
@@ -41,8 +38,8 @@ const Whole = () => {
         {items.map((item, index) => (
             <li key={index} className="border border-gray-300 p-4">
             <div className="flex justify-between">
-                <h2 className="font-bold">{item.name}</h2>
-                <p>{item.email}</p>
+                <h2 className="font-bold">{item.email}</h2>
+                {/* <p>{item.email}</p> */}
             </div>
             <div className="flex justify-end mt-4 space-x-4">
                 <button
