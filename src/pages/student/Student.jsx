@@ -18,18 +18,17 @@ const Student = () => {
     // Navigate to Google Calendar website
     window.open(`https://calendar.google.com/calendar/u/${user.email}/r`, '_blank');
   };
-
-  var arr = new Array(7);
-  async function myfunction() {
+  
+  var gapi = window.gapi
+  const handleClick = () => {
     try {
       gapi.load('client:auth2', () => {
         gapi.client.load('calendar', 'v3', () => {
           gapi.client.setToken({access_token:token});
           const now = new Date();
           
-          for (let i = 1; i < 8; i++) {
-            const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() + i);
-            const endOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() + (i+1));
+            const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() + 1);
+            const endOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() + 8);
             const request = gapi.client.calendar.events.list({
               'calendarId': 'primary',
               'timeMin': startOfWeek.toISOString(),
@@ -49,31 +48,20 @@ const Student = () => {
                   'url': event.htmlLink
                 };
               });
-              arr[i-1] = events;
-            }); 
-          }
-          console.log(arr);
-          // console.log('Events data: ', events);
+              const api = ' https://dw9ehzs68l.execute-api.us-east-1.amazonaws.com/stage1';
+              var p = api + '/updatecal';
+              axios.post(p, {'email': user.email, 'events': events}).then(function (response) {
+                console.log(response);
+              }).catch(function(error) {
+                console.log(error);
+              });
+              console.log('Events data: ', events);  
+            });
         });
       });
     } catch (error) {
       console.error('Error retrieving events: ', error);
     }
-    return arr;
-  };
-
-
-  
-  var gapi = window.gapi
-  const handleClick = () => {
-    const re = myfunction();
-    const api = ' https://dw9ehzs68l.execute-api.us-east-1.amazonaws.com/stage1';
-    var p = api + '/updatecal';
-    axios.post(p, {'email': user.email, 'events': re}).then(function (response) {
-      console.log(response);
-    }).catch(function(error) {
-      console.log(error);
-    });
   };
 
   return (
