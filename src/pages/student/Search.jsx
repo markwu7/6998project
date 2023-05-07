@@ -4,6 +4,7 @@ import { UserAuth } from '../../context/AuthContext';
 import axios from 'axios';
 
 const Search = () => {
+
   const { user } = UserAuth();
 
   const api = ' https://dw9ehzs68l.execute-api.us-east-1.amazonaws.com/stage1';
@@ -13,7 +14,8 @@ const Search = () => {
   var group = null;
   axios.post(p, {'email': user.email}).then(function (response) {
     console.log(response);
-    recs = response['body']
+    recs = response['data']['body']
+    console.log(recs);
   }).catch(function(error) {
     console.log(error);
   }); 
@@ -21,7 +23,7 @@ const Search = () => {
   p = api + '/search';
   axios.post(p, {'email': user.email}).then(function (response) {
     console.log(response);
-    search = response['body']
+    search = response['data']['body']
   }).catch(function(error) {
     console.log(error);
   });
@@ -45,11 +47,12 @@ const Search = () => {
   };
 
   const handleWholeClass = () => {
-    navigate('/student/whole');
+    navigate('/student/whole', {state:{s:search}});
   }
 
   const handleRec = () => {
-    navigate('/student/rec');
+    console.log(recs);
+    navigate('/student/rec', {state:{recommend:recs}});
   }
 
   return (

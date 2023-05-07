@@ -11,7 +11,7 @@ const Student = () => {
     window.location.reload();
   }; 
   const handleYes = () => {
-    navigate('/student/createprofile');
+    navigate('/student/search');
     handleClick();
   };
   const handleNo = () => {

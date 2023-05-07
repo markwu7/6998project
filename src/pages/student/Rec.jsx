@@ -1,21 +1,32 @@
 import React from 'react'
 import { useNavigate,useLocation } from 'react-router-dom';
+import { UserAuth } from '../../context/AuthContext';
+import axios from 'axios';
 
 const Rec = () => {
-  const items = [
-    { name: 'Ryan', email: 'rg3398@columbia.edu' },
-    { name: 'Thomas', email: 'jz3516@columbia.edu' },
-    { name: 'Allison', email: 'ar4513@columbia.edu' },
-    { name: 'John Doe', email: 'xxxx' },
-    { name: 'John Doe', email: 'xxxx' },
-    { name: 'John Doe', email: 'xxxx' },
-  ];
+  const { user } = UserAuth();
+  const items = [];
 
+ 
   const navigate = useNavigate();
   const location = useLocation();
-  
+  var recs = location.state.recommend;
+  console.log(location.state);
+  for (var i = 0; i < recs.length; i++) {
+    items.push({name: "", email: recs[i]});
+  }
   const handleRequestGroup = (item) => {
-    navigate('/student/requestSuccess', { state: { from: location.pathname } });
+        const api = ' https://dw9ehzs68l.execute-api.us-east-1.amazonaws.com/stage1';
+        var p = api + '/groupreq';
+
+        axios.post(p, {'sender': user.email, 'name': user.displayName, "receive": item.email}).then(function (response) {
+            console.log(response);
+            recs = response['data']['body']
+            console.log(recs);
+          }).catch(function(error) {
+            console.log(error);
+          }); 
+        navigate('/student/requestSuccess', { state: { from: location.pathname } });
   };
 
   const handleSeeCalendar = (item) => {
@@ -40,8 +51,8 @@ const Rec = () => {
         {items.map((item, index) => (
           <li key={index} className="border border-gray-300 p-4">
             <div className="flex justify-between">
-              <h2 className="font-bold">{item.name}</h2>
-              <p>{item.email}</p>
+              <h2 className="font-bold">{item.email}</h2>
+              {/* <p>{item.email}</p> */}
             </div>
             <div className="flex justify-end mt-4 space-x-4">
               <button

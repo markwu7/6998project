@@ -22,7 +22,7 @@ const Profile = () => {
 
     const handleNextClick = () => {
         p = p + '/update';
-        axios.post(p, {'email': user.email, 'about_me': about}).then(function (response) {
+        axios.post(p, {'email': user.email, 'about_me': about, 'name': user.displayName}).then(function (response) {
           console.log(response);
           console.log(response.body)
         }).catch(function(error) {
