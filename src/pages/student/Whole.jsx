@@ -1,10 +1,12 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-
+import axios from 'axios';
+import { UserAuth } from '../../context/AuthContext';
 
 const Whole = () => {
     const items = [];
 
+    const { user } = UserAuth();
     const navigate = useNavigate();
     const location = useLocation();
     var search = location.state.s;
@@ -13,7 +15,15 @@ const Whole = () => {
         items.push({name: "", email: search[i]});
       }
     const handleRequestGroup = (item) => {
-    navigate('/student/requestSuccess', { state: { from: location.pathname } });
+        const api = ' https://dw9ehzs68l.execute-api.us-east-1.amazonaws.com/stage1';
+        var p = api + '/groupreq';
+
+        axios.post(p, {'sender': user.email, 'name': user.displayName, "receive": item.email}).then(function (response) {
+            console.log(response);
+          }).catch(function(error) {
+            console.log(error);
+          }); 
+        navigate('/student/requestSuccess', { state: { from: location.pathname } });
     };
 
     const handleSeeCalendar = (item) => {

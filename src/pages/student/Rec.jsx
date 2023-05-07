@@ -16,7 +16,17 @@ const Rec = () => {
     items.push({name: "", email: recs[i]});
   }
   const handleRequestGroup = (item) => {
-    navigate('/student/requestSuccess', { state: { from: location.pathname } });
+        const api = ' https://dw9ehzs68l.execute-api.us-east-1.amazonaws.com/stage1';
+        var p = api + '/groupreq';
+
+        axios.post(p, {'sender': user.email, 'name': user.displayName, "receive": item.email}).then(function (response) {
+            console.log(response);
+            recs = response['data']['body']
+            console.log(recs);
+          }).catch(function(error) {
+            console.log(error);
+          }); 
+        navigate('/student/requestSuccess', { state: { from: location.pathname } });
   };
 
   const handleSeeCalendar = (item) => {
