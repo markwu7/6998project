@@ -96,7 +96,7 @@ const Search = () => {
           RECOMMENDATIONS
         </button>
         {/* Button 3: Black background, white text */}
-        <button
+        {/* <button
           style={{  
             backgroundColor: '#000000',
             border: 'none',
@@ -112,7 +112,7 @@ const Search = () => {
           onClick={handleGroupPage}
         >
           GROUP HOMEPAGE
-        </button>
+        </button> */}
       </div>
       <div className="flex justify-center">
         {/* Button 4: White background, black text */}
