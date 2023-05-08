@@ -21,7 +21,7 @@ const SigninInvite = () => {
       }).catch(function(error) {
         console.log(error);
       });
-      navigate("/list", {state:{reqs: list}}); 
+      navigate("/list", {state:{reqs: list}} ); 
     } catch (error) {
       console.log(error);
     }

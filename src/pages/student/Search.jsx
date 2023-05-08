@@ -11,7 +11,6 @@ const Search = () => {
   var p = api + '/recommendations';
   var recs = null;
   var search = null;
-  var group = null;
   axios.post(p, {'email': user.email}).then(function (response) {
     console.log(response);
     recs = response['data']['body']
@@ -28,22 +27,25 @@ const Search = () => {
     console.log(error);
   });
 
-  p = api + '/profile/' + user.email;
-  axios.post(p, {'email': user.email}).then(function (response) {
-    console.log(response);
-    group = response['body']['group']
-  }).catch(function(error) {
-    console.log(error);
-  });
-
-
   const navigate = useNavigate();
   const handleReturn = () => {
     navigate('/');
   };
 
   const handleGroupPage = () => {
-    navigate('/student/group');
+    var list = null;
+    var p = api + '/list';
+    axios.post(p, {'email': user.email}).then(function (response) {
+    console.log(response);
+    list = response['data']['body']
+    console.log(list);
+    }).catch(function(error) {
+      console.log(error);
+    });
+    if (list)
+      navigate('/list', {state:{reqs:list}});
+    else 
+      alert("No Requests Available");
   };
 
   const handleWholeClass = () => {
@@ -96,7 +98,7 @@ const Search = () => {
           RECOMMENDATIONS
         </button>
         {/* Button 3: Black background, white text */}
-        {/* <button
+        <button
           style={{  
             backgroundColor: '#000000',
             border: 'none',
@@ -111,8 +113,8 @@ const Search = () => {
           className="px-4 py-2 rounded-md"
           onClick={handleGroupPage}
         >
-          GROUP HOMEPAGE
-        </button> */}
+          GROUP REQUESTS
+        </button>
       </div>
       <div className="flex justify-center">
         {/* Button 4: White background, black text */}
