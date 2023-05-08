@@ -17,6 +17,7 @@ import Whole from './pages/student/Whole';
 import Rec from './pages/student/Rec';
 import RequestSuccess from './pages/student/RequestSuccess';
 import Calendar from './pages/student/Calendar';
+import List from './pages/List';
 
 function App() {
   return (
@@ -24,8 +25,9 @@ function App() {
       <AuthContextProvider>
         <Navbar />
         <Routes>
-          <Route path='/' element={<Home />} />
+          <Route exact path='/' element={<Home />} />
           <Route path='/signin' element={<Signin />} />
+          <Route path='/list' element={<List />} />
           <Route
             path='/account'
             element={

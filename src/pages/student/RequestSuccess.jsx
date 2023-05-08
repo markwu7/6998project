@@ -6,7 +6,7 @@ const RequestSuccess = () => {
   const location = useLocation();
 
   const handleReturn = () => {
-    navigate(location.state?.from);
+    navigate('/student/search');
   };
 
   return (

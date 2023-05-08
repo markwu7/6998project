@@ -11,7 +11,7 @@ const Search = () => {
   var p = api + '/recommendations';
   var recs = null;
   var search = null;
-  var group = null;
+  var list = null;
   axios.post(p, {'email': user.email}).then(function (response) {
     console.log(response);
     recs = response['data']['body']
@@ -28,14 +28,14 @@ const Search = () => {
     console.log(error);
   });
 
-  p = api + '/profile/' + user.email;
-  axios.post(p, {'email': user.email}).then(function (response) {
+  p = api + '/list';
+    axios.post(p, {'email': user.email}).then(function (response) {
     console.log(response);
-    group = response['body']['group']
-  }).catch(function(error) {
-    console.log(error);
-  });
-
+    list = response['data']['body']
+    console.log("List", list);
+    }).catch(function(error) {
+      console.log(error);
+    });
 
   const navigate = useNavigate();
   const handleReturn = () => {
@@ -43,7 +43,7 @@ const Search = () => {
   };
 
   const handleGroupPage = () => {
-    navigate('/student/group');
+      navigate('/list', {state:{reqs:list}});
   };
 
   const handleWholeClass = () => {
@@ -111,7 +111,7 @@ const Search = () => {
           className="px-4 py-2 rounded-md"
           onClick={handleGroupPage}
         >
-          GROUP HOMEPAGE
+          GROUP REQUESTS
         </button>
       </div>
       <div className="flex justify-center">

@@ -8,7 +8,7 @@ const Calendar = () => {
   const name = new URLSearchParams(location.search).get('name');
   const email = new URLSearchParams(location.search).get('email');
   const handleReturn = () => {
-    navigate(location.state?.from);
+    navigate("/student/Student");
   };
   return(
     <div style={{
@@ -18,7 +18,7 @@ const Calendar = () => {
       justifyContent: 'center',
       minHeight: '100vh', // Set minimum height to fill the viewport
     }}>
-      <h1 className='text-center text-3xl font-bold py-8'>{name}'s Calendar</h1>
+      <h1 className='text-center text-3xl font-bold py-8'>{email}'s Calendar</h1>
       <iframe
         src={`https://calendar.google.com/calendar/embed?src=${encodeURIComponent(
           email || ''
