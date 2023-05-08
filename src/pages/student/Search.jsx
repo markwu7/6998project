@@ -11,6 +11,7 @@ const Search = () => {
   var p = api + '/recommendations';
   var recs = null;
   var search = null;
+  var list = null;
   axios.post(p, {'email': user.email}).then(function (response) {
     console.log(response);
     recs = response['data']['body']
@@ -27,25 +28,22 @@ const Search = () => {
     console.log(error);
   });
 
+  p = api + '/list';
+    axios.post(p, {'email': user.email}).then(function (response) {
+    console.log(response);
+    list = response['data']['body']
+    console.log("List", list);
+    }).catch(function(error) {
+      console.log(error);
+    });
+
   const navigate = useNavigate();
   const handleReturn = () => {
     navigate('/');
   };
 
   const handleGroupPage = () => {
-    var list = null;
-    var p = api + '/list';
-    axios.post(p, {'email': user.email}).then(function (response) {
-    console.log(response);
-    list = response['data']['body']
-    console.log(list);
-    }).catch(function(error) {
-      console.log(error);
-    });
-    if (list)
       navigate('/list', {state:{reqs:list}});
-    else 
-      alert("No Requests Available");
   };
 
   const handleWholeClass = () => {

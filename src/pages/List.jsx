@@ -9,11 +9,14 @@ const List = () => {
     const navigate = useNavigate();
     const location = useLocation();
     var reqs = location.state.reqs;
-
-    for (var i = 0; i < reqs.length; i++) {
-        items.push({sender: reqs[i]['sender'], email: reqs[i]['receive']});
+    console.log("reqs", reqs)
+    if (reqs) {
+        for (var i = 0; i < reqs.length; i++) {
+            items.push({sender: reqs[i], email: user.email});
+        }
     }
 
+    console.log("HEre",items);
     const handleSeeCalendar = (item) => {
         navigate(`/student/calendar?name=${''}&email=${encodeURIComponent(item.sender)}`, { state: { from: location.pathname } });
     };
@@ -28,6 +31,18 @@ const List = () => {
             console.log(error);
           }); 
           alert("You've Successfully Joined ".concat(item.email, '\'s Project Group!'));
+    };
+
+    const handleRequestGroup2 = (item) => {
+        const api = ' https://dw9ehzs68l.execute-api.us-east-1.amazonaws.com/stage1';
+        var p = api + '/acceptreq';
+
+        axios.post(p, {'sender': item.sender, "receive": user.email, "answer": "no"}).then(function (response) {
+            console.log(response);
+          }).catch(function(error) {
+            console.log(error);
+          }); 
+          alert("You've Denied ".concat(item.email, '\'s Project Group!'));
     };
 
     const handleReturnToStart = () => {
@@ -50,6 +65,12 @@ const List = () => {
                     onClick={() => handleRequestGroup(item)}
                   >
                     ACCEPT REQUEST
+                  </button>
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => handleRequestGroup2(item)}
+                  >
+                    DENY REQUEST
                   </button>
                   <button
                     className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"

@@ -8,7 +8,7 @@ const Calendar = () => {
   const name = new URLSearchParams(location.search).get('name');
   const email = new URLSearchParams(location.search).get('email');
   const handleReturn = () => {
-    navigate(location.state?.from);
+    navigate("/student/Student");
   };
   return(
     <div style={{
